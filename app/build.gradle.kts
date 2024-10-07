@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-
+    implementation ("org.jsoup:jsoup:1.18.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
