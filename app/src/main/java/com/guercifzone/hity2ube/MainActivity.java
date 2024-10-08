@@ -23,9 +23,9 @@ import com.guercifzone.hity2ube.Lib.VideoLink;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-TextView textView;
+TextView txturl,txtquality,txtformat;
 EditText editText;
-Button btn;
+Button btn,btnrefresh;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +37,25 @@ Button btn;
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        textView = (TextView) findViewById(R.id.title);
+        txturl = (TextView) findViewById(R.id.url);
+        txtquality = (TextView) findViewById(R.id.quality);
+        txtformat = (TextView) findViewById(R.id.format);
         editText = (EditText) findViewById(R.id.link);
         btn = (Button) findViewById(R.id.dwnd);
+        btnrefresh = (Button) findViewById(R.id.refresh);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadurl();
             }
         });
+        btnrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Refresh();
+            }
+        });
+
 if(editText.getText().toString().isEmpty()){
     Toast.makeText(this, "enter youtube link", Toast.LENGTH_SHORT).show();
     btn.setVisibility(View.GONE);
@@ -53,6 +63,14 @@ if(editText.getText().toString().isEmpty()){
     btn.setVisibility(View.VISIBLE);
     Toast.makeText(this, "plaese wait", Toast.LENGTH_LONG).show();
 }
+    }
+
+    private void Refresh() {
+        txturl.setText("");
+        txtquality.setText("");
+        txtformat.setText("");
+        editText.setText("");
+
     }
 
     private void loadurl() {
@@ -63,8 +81,10 @@ if(editText.getText().toString().isEmpty()){
                 public void onVideo(ArrayList<VideoLink> videos) {
                     for (int i = 0; i < videos.size(); i++) {
                         Log.e("size:", videos.get(i).isAudioAvailable() + " server url --> " + videos.get(i).getQuality() + " quality : " + videos.get(i).getUrl());
-                        textView.setText(videos.get(i).getUrl());
-                        textView.setTextColor(Color.BLUE);
+                        txturl.setText(videos.get(i).getUrl());
+                        txturl.setTextColor(Color.BLUE);
+                        txtquality.setText("Quality :"+videos.get(i).getQuality());
+                        txtformat.setText("Format :"+videos.get(i).getFormat());
 
                     }
                 }
